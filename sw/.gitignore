@@ -1,0 +1,5 @@
+# Build output (copied out of the Docker volume / native build)
+images/
+
+# Native build tree (Buildroot source + output + download cache)
+.build/

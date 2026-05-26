@@ -254,7 +254,9 @@ See `../bom/bom.csv` for the working BOM.
 
 ## 12. Software bring-up — proving "boots to Linux console"
 
-This is the acceptance path that validates the hardware.
+This is the acceptance path that validates the hardware. The build setup that produces the
+image lives in [`../../sw/`](../../sw/) (Buildroot in Docker — see `sw/README.md`); the steps
+below summarize what it does.
 
 1. **Toolchain:** `arm-linux-gnueabi-` (32-bit ARM, soft/hard-float per Buildroot config).
 2. **U-Boot:** mainline. Start from `suniv_f1c100s_defconfig`; adjust for **64 MB** RAM and

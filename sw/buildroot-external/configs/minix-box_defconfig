@@ -1,0 +1,65 @@
+# minix-box — Buildroot defconfig for the Allwinner F1C200s board.
+#
+# Build (from a Buildroot checkout):
+#   make BR2_EXTERNAL=/ext minix-box_defconfig && make
+# (the sw/build.sh Docker wrapper does this for you).
+
+# Architecture: ARM926EJ-S = ARMv5TE, EABI, soft-float.
+BR2_arm=y
+BR2_arm926t=y
+
+# Toolchain: Buildroot-internal, uClibc-ng (small — suits a 64 MB / 16 MB NOR target).
+BR2_TOOLCHAIN_BUILDROOT_UCLIBC=y
+
+# System / login.
+BR2_TARGET_GENERIC_HOSTNAME="minix-box"
+BR2_TARGET_GENERIC_ISSUE="Welcome to minix-box (Allwinner F1C200s)"
+BR2_TARGET_GENERIC_ROOT_PASSWD="root"
+BR2_INIT_BUSYBOX=y
+BR2_TARGET_GENERIC_GETTY=y
+BR2_TARGET_GENERIC_GETTY_PORT="ttyS0"
+BR2_TARGET_GENERIC_GETTY_BAUDRATE_115200=y
+
+# Rootfs overlay + post scripts (paths relative to this BR2_EXTERNAL tree).
+BR2_ROOTFS_OVERLAY="$(BR2_EXTERNAL_MINIX_BOX_PATH)/board/minix-box/rootfs-overlay"
+BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_MINIX_BOX_PATH)/board/minix-box/post-build.sh"
+BR2_ROOTFS_POST_IMAGE_SCRIPT="$(BR2_EXTERNAL_MINIX_BOX_PATH)/board/minix-box/post-image.sh"
+
+# --- Linux kernel ---
+# NOTE: pin to a version with working suniv MMC/SPI support. 6.6.x LTS is a safe baseline.
+BR2_LINUX_KERNEL=y
+BR2_LINUX_KERNEL_CUSTOM_VERSION=y
+BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="6.6.58"
+BR2_LINUX_KERNEL_USE_CUSTOM_CONFIG=y
+BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE="$(BR2_EXTERNAL_MINIX_BOX_PATH)/board/minix-box/linux.config"
+BR2_LINUX_KERNEL_ZIMAGE=y
+BR2_LINUX_KERNEL_DTS_SUPPORT=y
+BR2_LINUX_KERNEL_CUSTOM_DTS_PATH="$(BR2_EXTERNAL_MINIX_BOX_PATH)/board/minix-box/suniv-f1c200s-minix-box.dts"
+BR2_LINUX_KERNEL_INTREE_DTS_NAME="suniv-f1c200s-minix-box"
+
+# --- U-Boot ---
+# suniv_f1c100s is the mainline board defconfig for the F1Cx00 family.
+BR2_TARGET_UBOOT=y
+BR2_TARGET_UBOOT_BUILD_SYSTEM_KCONFIG=y
+BR2_TARGET_UBOOT_CUSTOM_VERSION=y
+BR2_TARGET_UBOOT_CUSTOM_VERSION_VALUE="2024.01"
+BR2_TARGET_UBOOT_BOARD_DEFCONFIG="suniv_f1c100s"
+BR2_TARGET_UBOOT_CONFIG_FRAGMENT_FILES="$(BR2_EXTERNAL_MINIX_BOX_PATH)/board/minix-box/uboot.fragment"
+BR2_TARGET_UBOOT_NEEDS_DTC=y
+BR2_TARGET_UBOOT_NEEDS_PYLIBFDT=y
+BR2_TARGET_UBOOT_FORMAT_CUSTOM=y
+BR2_TARGET_UBOOT_FORMAT_CUSTOM_NAME="u-boot-sunxi-with-spl.bin"
+# Compile the U-Boot boot script (boot.cmd -> boot.scr).
+BR2_TARGET_UBOOT_BOOT_SCRIPT=y
+BR2_TARGET_UBOOT_BOOT_SCRIPT_SOURCE="$(BR2_EXTERNAL_MINIX_BOX_PATH)/board/minix-box/boot.cmd"
+
+# --- Root filesystem ---
+BR2_TARGET_ROOTFS_EXT2=y
+BR2_TARGET_ROOTFS_EXT2_4=y
+BR2_TARGET_ROOTFS_EXT2_SIZE="48M"
+
+# --- Host tools for SD image assembly ---
+BR2_PACKAGE_HOST_GENIMAGE=y
+BR2_PACKAGE_HOST_DOSFSTOOLS=y
+BR2_PACKAGE_HOST_MTOOLS=y
+BR2_PACKAGE_HOST_UBOOT_TOOLS=y

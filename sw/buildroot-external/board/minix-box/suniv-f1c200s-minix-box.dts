@@ -1,0 +1,79 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Device tree for the minix-box board (Allwinner F1C200s, 64 MB SiP DDR).
+ * Based on the mainline suniv-f1c100s family.
+ *
+ * ⚠ VERIFY every pinctrl phandle, GPIO, and regulator node below against the
+ *   in-tree suniv-f1c100s.dtsi of the kernel version you build (node names have
+ *   changed across releases) and against the F1C200s datasheet pin-mux.
+ */
+
+/dts-v1/;
+#include "suniv-f1c100s.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	model = "minix-box (Allwinner F1C200s)";
+	compatible = "allwinner,suniv-f1c200s",
+		     "allwinner,suniv-f1c100s",
+		     "allwinner,suniv";
+
+	aliases {
+		serial0 = &uart0;
+		spi0 = &spi0;
+	};
+
+	chosen {
+		stdout-path = "serial0:115200n8";
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led-status {
+			label = "minix-box:green:status";
+			/* ⚠ VERIFY status-LED GPIO (bank/pin) */
+			gpios = <&pio 4 6 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "heartbeat";
+		};
+	};
+};
+
+/* Serial console -> CH340N USB-UART bridge */
+&uart0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart0_pe_pins>;	/* ⚠ VERIFY mux node name */
+	status = "okay";
+};
+
+/* microSD on SDC0 */
+&mmc0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc0_pins>;	/* ⚠ VERIFY */
+	bus-width = <4>;
+	broken-cd;			/* or cd-gpios = <...>; if a CD switch is wired */
+	status = "okay";
+};
+
+/* Boot SPI NOR (Winbond W25Q128, 16 MB) on SPI0 */
+&spi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi0_pc_pins>;	/* ⚠ VERIFY */
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <50000000>;
+	};
+};
+
+/* USB-OTG on USB-C #2 */
+&usb_otg {
+	dr_mode = "otg";
+	status = "okay";
+};
+
+&usbphy {
+	status = "okay";
+};

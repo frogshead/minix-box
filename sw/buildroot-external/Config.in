@@ -1,0 +1,5 @@
+#
+# minix-box BR2_EXTERNAL package menu.
+# Add `source "$BR2_EXTERNAL_MINIX_BOX_PATH/package/<pkg>/Config.in"` lines here
+# as custom packages are introduced. Empty for now.
+#
