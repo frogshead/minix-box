@@ -1,0 +1,22 @@
+Ref,Qty,Value/MPN,Manufacturer,LCSC#,Package,Basic/Extended,Notes
+U1,1,F1C200s,Allwinner,TBD,QFN-88,Extended,SoC w/ 64MB in-package DDR; confirm live LCSC stock + substitute readiness
+U2,1,W25Q128JVSIQ,Winbond,TBD,SOIC-8-208mil,Basic,16MB SPI NOR boot flash on SPI0
+U3,1,CH340N,WCH,TBD,SOP-8,Basic,USB-UART console bridge (internal osc; no crystal)
+U4,1,SY8089AAC,Silergy,TBD,SOT-23-6,Basic,3V3 buck from 5V VBUS (~2A); AMS1117-3.3 LDO acceptable alt
+U5,1,Core-rail regulator (~1.1V),TBD,TBD,SOT-23-6,Extended,VDD core; VERIFY exact voltage vs datasheet
+U6,1,DRAM-rail regulator,TBD,TBD,TBD,Extended,VERIFY DDR voltage vs datasheet/Lichee Nano before populating
+J1,1,USB-C receptacle (16P),TBD,TBD,SMD,Basic,Power 5V + console (to CH340N)
+J2,1,USB-C receptacle (16P),TBD,TBD,SMD,Basic,SoC USB-OTG
+J3,1,microSD push connector,TBD,TBD,SMD,Basic,SDC0 boot/rootfs
+Y1,1,24MHz crystal,TBD,TBD,SMD-3225,Basic,Main system clock (required); verify load cap CL
+Y2,1,32.768kHz crystal,TBD,TBD,SMD,Basic,RTC (optional / DNP unless RTC needed)
+SW1,1,Tactile button,TBD,TBD,SMD,Basic,Reset (nRESET)
+SW2,1,Tactile button,TBD,TBD,SMD,Basic,FEL/recovery (pulls SPI0_CLK low)
+D1,1,LED 0603,TBD,TBD,0603,Basic,Status LED (kernel heartbeat)
+D2,1,USB ESD TVS array,TBD,TBD,SMD,Basic,Protect USB-C #2 D+/D-
+D3,1,Input protection Schottky,TBD,TBD,SMD,Basic,VBUS reverse/OV protection
+C-bulk,3,10uF,TBD,TBD,0805,Basic,Bulk decoupling on rails
+C-dec,20,100nF,TBD,TBD,0402,Basic,Local decoupling at SoC power pins
+C-xtal,2,Load cap (verify CL),TBD,TBD,0402,Basic,24MHz crystal load caps
+R-cc,2,5.1k,TBD,TBD,0402,Basic,USB-C CC pulldowns (Rd) on J2
+R-misc,8,Resistors (pullups/series),TBD,TBD,0402,Basic,Boot straps / SD series / LED resistor

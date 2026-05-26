@@ -1,0 +1,11 @@
+# KiCad local/auto-generated
+*.kicad_prl
+*-backups/
+*.bak
+*-erc.rpt
+*-drc.rpt
+fzz/
+
+# Fab output (regenerated)
+fab/*
+!fab/.gitkeep
