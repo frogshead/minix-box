@@ -1,14 +1,14 @@
-# minix-box U-Boot config overrides, applied on top of suniv_f1c100s_defconfig.
+# minix-box U-Boot config overrides, applied on top of lctech_pi_f1c200s_defconfig.
 #
-# ⚠ VERIFY: the F1C200s has 64 MB of in-package DDR, vs 32 MB on the Lichee
-#   Nano (F1C100s) that suniv_f1c100s_defconfig targets. Confirm the correct
-#   DRAM-size Kconfig symbol/value for your U-Boot version before flashing —
-#   a wrong DRAM size leads to a board that hangs in SPL or corrupts memory.
-#   On recent U-Boot the suniv DRAM size is selected via CONFIG_DRAM_SUNIV_*
-#   / the board's dram setup; check `make suniv_f1c100s_defconfig menuconfig`.
+# lctech_pi_f1c200s_defconfig already sets CONFIG_SUNXI_MINIMUM_DRAM_MB=64
+# for the F1C200s in-package 64 MB DDR.
 
-# Boot from SD card / SPI; run the boot.scr produced from boot.cmd.
+# Console on UART0 (the lctech board uses UART1 / CONS_INDEX=2).
+CONFIG_CONS_INDEX=1
+
+# Boot delay.
 CONFIG_BOOTDELAY=1
 
-# Example DRAM override (CONFIRM the exact symbol name for your U-Boot tree):
-# CONFIG_DRAM_SUNIV_SIZE=64
+# SPI flash support for boot from W25Q128 on SPI0.
+CONFIG_SPL_SPI_SUNXI=y
+CONFIG_SPI_FLASH_WINBOND=y

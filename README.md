@@ -18,8 +18,24 @@ cheap 2-layer PCB. Parts are sourced from **LCSC** and fabricated + assembled at
 - **Hardware:** open `hw/kicad/minix-box.kicad_pro` in KiCad 8+, import parts by LCSC number
   (`easyeda2kicad`), capture/route, then export Gerbers + BOM + CPL for JLCPCB. Start with
   [`hw/docs/minix-box-hw-design.md`](hw/docs/minix-box-hw-design.md).
-- **Software:** `cd sw && ./build.sh` (needs Docker) → `sw/images/sdcard.img`. `dd` it to a
-  microSD, connect USB-C, open the serial console at **115200 8N1**. See [`sw/README.md`](sw/README.md).
+- **Software:**
+
+  1. **Build the image** (needs Docker):
+     ```
+     cd sw && ./build.sh
+     ```
+     This produces `sw/images/sdcard.img` (and individual bootloader/kernel/DTB files).
+
+  2. **Flash to microSD** (replace `/dev/sdX` with your SD card device):
+     ```
+     sudo dd if=sw/images/sdcard.img of=/dev/sdX bs=1M status=progress
+     sudo sync
+     ```
+
+  3. **Boot:** insert the microSD, connect USB-C, and open a serial console at **115200 8N1**.
+     Default login: `root` / `root`.
+
+  See [`sw/README.md`](sw/README.md) for build details.
 
 ## Status
 
