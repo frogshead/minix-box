@@ -35,6 +35,10 @@ cheap 2-layer PCB. Parts are sourced from **LCSC** and fabricated + assembled at
   3. **Boot:** insert the microSD, connect USB-C, and open a serial console at **115200 8N1**.
      Default login: `root` / `root`.
 
+  You can also **build on GitHub Actions** — either automatically on push to `sw/`, or
+  manually via the Actions tab → **Build Linux image** → **Run workflow**. The built
+  `sdcard.img` and other artifacts are available for download from the workflow run.
+
   See [`sw/README.md`](sw/README.md) for build details.
 
 ## Status
