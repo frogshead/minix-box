@@ -4,9 +4,12 @@ on:
   push:
     paths:
       - 'hw/kicad/**'
+      - '.github/workflows/kicad-checks.yml'
   pull_request:
     paths:
       - 'hw/kicad/**'
+      - '.github/workflows/kicad-checks.yml'
+  workflow_dispatch:
 
 jobs:
   erc:
