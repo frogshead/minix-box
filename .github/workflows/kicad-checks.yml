@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: kicad/kicad:10.0
+      options: --user 0
     steps:
       - uses: actions/checkout@v4
       - name: Run ERC
@@ -30,6 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: kicad/kicad:10.0
+      options: --user 0
     steps:
       - uses: actions/checkout@v4
       - name: Run DRC
