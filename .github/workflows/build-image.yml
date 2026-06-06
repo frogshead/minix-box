@@ -1,0 +1,32 @@
+name: Build Linux image
+
+on:
+  push:
+    paths:
+      - 'sw/**'
+      - '.github/workflows/build-image.yml'
+  pull_request:
+    paths:
+      - 'sw/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Buildroot image
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: cd sw && ./build.sh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: minix-box-image
+          path: |
+            sw/images/sdcard.img
+            sw/images/u-boot-sunxi-with-spl.bin
+            sw/images/zImage
+            sw/images/*.dtb

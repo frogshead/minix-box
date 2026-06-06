@@ -24,6 +24,7 @@ BR2_TARGET_GENERIC_GETTY_BAUDRATE_115200=y
 BR2_ROOTFS_OVERLAY="$(BR2_EXTERNAL_MINIX_BOX_PATH)/board/minix-box/rootfs-overlay"
 BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_MINIX_BOX_PATH)/board/minix-box/post-build.sh"
 BR2_ROOTFS_POST_IMAGE_SCRIPT="$(BR2_EXTERNAL_MINIX_BOX_PATH)/board/minix-box/post-image.sh"
+BR2_ROOTFS_USERS_TABLES="$(BR2_EXTERNAL_MINIX_BOX_PATH)/board/minix-box/users.conf"
 
 # --- Linux kernel ---
 # NOTE: pin to a version with working suniv MMC/SPI support. 6.6.x LTS is a safe baseline.
