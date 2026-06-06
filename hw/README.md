@@ -33,6 +33,12 @@ empty root schematic, an empty 2-layer board, and library tables pointing at
 2. Import part symbols + footprints **by LCSC part number** into `kicad/libraries/` using
    [`easyeda2kicad`](https://github.com/uPesy/easyeda2kicad.py) (or `JLC2KiCadLib`). This
    keeps the LCSC number attached, which JLCPCB's assembly service matches against.
+   For the F1C200s SoC (LCSC part **C2879851**):
+   ```
+   easyeda2kicad --lcsc_id C2879851 --output kicad/libraries/
+   ```
+   A standalone KiCad library for the F1C200s (and other Allwinner SiPs) is also available at
+   [allwinner_SiPs_kicad_lib](https://github.com/tmilkovic51/allwinner_SiPs_kicad_lib).
 3. Capture the schematic, lay out the PCB, then export **Gerbers + drill** and **BOM + CPL**
    into `fab/` for upload to JLCPCB.
 
